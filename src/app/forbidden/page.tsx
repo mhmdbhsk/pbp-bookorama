@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next-nprogress-bar';
 
 export default function Forbidden() {
   const router = useRouter();

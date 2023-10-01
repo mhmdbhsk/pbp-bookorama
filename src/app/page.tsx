@@ -19,9 +19,9 @@ export default function AppPage() {
   }
 
   return (
-    <div className='flex items-center h-screen justify-center'>
+    <div className='flex flex-col gap-3 items-center h-screen justify-center'>
       <svg
-        className='-ml-1 mr-3 h-24 w-24 animate-spin'
+        className='-ml-1 mr-3 h-14 w-14 animate-spin'
         xmlns='http://www.w3.org/2000/svg'
         fill='none'
         viewBox='0 0 24 24'
@@ -40,6 +40,8 @@ export default function AppPage() {
           d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z'
         />
       </svg>
+
+      <span>Memuat...</span>
     </div>
   );
 }

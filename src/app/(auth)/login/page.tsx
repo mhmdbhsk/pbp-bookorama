@@ -19,8 +19,8 @@ import {
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { getSession, signIn, useSession } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 
 const loginSchema = z.object({
@@ -31,26 +31,26 @@ const loginSchema = z.object({
 type FormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const router = useRouter();
   const [error, setError] = useState('');
-  const { data: sessionData } = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get('callbackUrl') ?? '/';
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(loginSchema),
   });
 
   async function onSubmit(data: FormData) {
+    setIsLoading(true);
     const result = await signIn('credentials', {
       email: data.email,
       password: data.password,
       callbackUrl,
-      redirect: true,
     });
 
     if (result?.error) {
       setError(result.error);
+      setIsLoading(false);
     }
   }
 
@@ -101,7 +101,7 @@ export default function LoginPage() {
 
               {!!error && <p className='text-error'>ERROR: {error}</p>}
 
-              <Button type='submit' className='mt-4'>
+              <Button loading={isLoading} type='submit' className='mt-4'>
                 Masuk
               </Button>
             </form>

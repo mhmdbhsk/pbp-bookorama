@@ -132,9 +132,9 @@ export function CategoriesDataTable({
       <div className='flex items-center py-4 gap-4'>
         <Input
           placeholder='Cari nama kategori...'
-          value={(table.getColumn('title')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('title')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className='w-full'
         />
