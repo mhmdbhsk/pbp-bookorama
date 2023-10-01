@@ -6,6 +6,10 @@ import { redirect } from 'next/navigation';
 export default function AppPage() {
   const { data } = useSession();
 
+  if (!data) {
+    return redirect('/login');
+  }
+
   if (data) {
     if ((data?.user?.role as unknown) === 'ADMIN') {
       return redirect('/admin');
