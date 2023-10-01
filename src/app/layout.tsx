@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={cn(inter.className, 'bg-[#f7f7f7]')}>
+      <body className={cn(inter.className, 'bg-[#f7f7f7] antialiased')}>
         <Providers>{children}</Providers>
       </body>
     </html>
