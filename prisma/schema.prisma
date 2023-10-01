@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  role      Role     @default(CUSTOMER)
+  name      String
+  books     Books[]
+  orders    Orders[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  password  String
+}
+
+enum Role {
+  ADMIN
+  CUSTOMER
+}
+
+model Books {
+  isbn       String       @id
+  author     String
+  title      String
+  price      Float
+  categoryId Int
+  adminId    Int
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  orderItems OrderItems[]
+  bookReview BookReview[]
+  categories Categories   @relation(fields: [categoryId], references: [id])
+  user       User         @relation(fields: [adminId], references: [id])
+}
+
+model Categories {
+  id    Int     @id @default(autoincrement())
+  name  String
+  books Books[]
+}
+
+model Orders {
+  id         Int          @id @default(autoincrement())
+  customerId Int
+  amount     Float
+  date       DateTime     @default(now())
+  user       User         @relation(fields: [customerId], references: [id])
+  orderItems OrderItems[]
+}
+
+model OrderItems {
+  id       Int    @id @default(autoincrement())
+  orderId  Int
+  isbn     String
+  quantity Int
+  orders   Orders @relation(fields: [orderId], references: [id])
+  books    Books  @relation(fields: [isbn], references: [isbn])
+}
+
+model BookReview {
+  isbn   String @id
+  review String
+  books  Books  @relation(fields: [isbn], references: [isbn])
+}
