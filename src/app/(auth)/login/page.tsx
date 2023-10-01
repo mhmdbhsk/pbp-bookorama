@@ -20,7 +20,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn, useSession } from 'next-auth/react';
+import { getSession, signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 const loginSchema = z.object({
@@ -34,6 +34,8 @@ export default function LoginPage() {
   const router = useRouter();
   const [error, setError] = useState('');
   const { data: sessionData } = useSession();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') ?? '/';
 
   const form = useForm<FormData>({
     resolver: zodResolver(loginSchema),
@@ -43,17 +45,12 @@ export default function LoginPage() {
     const result = await signIn('credentials', {
       email: data.email,
       password: data.password,
-      redirect: false,
+      callbackUrl,
+      redirect: true,
     });
+
     if (result?.error) {
       setError(result.error);
-    }
-    if (sessionData) {
-      if ((sessionData.user?.role as unknown) === 'ADMIN') {
-        router.push('/admin');
-      } else {
-        router.push('/app');
-      }
     }
   }
 

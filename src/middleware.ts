@@ -9,24 +9,36 @@ export async function middleware(request: NextRequest, _next: NextFetchEvent) {
   const matchesProtectedPath = protectedPaths.some((path) =>
     pathname.startsWith(path)
   );
+  const token = await getToken({ req: request });
 
-  if (matchesProtectedPath) {
-    const token = await getToken({ req: request });
+  if (pathname === '/login' && token) {
+    if ((token.role as unknown) === 'ADMIN') {
+      const url = new URL(`/admin`, request.url);
+      return NextResponse.redirect(url);
+    } else {
+      const url = new URL(`/app`, request.url);
+      return NextResponse.redirect(url);
+    }
+  }
 
+  if (!token && matchesProtectedPath) {
     if (!token) {
       const url = new URL(`/login`, request.url);
       return NextResponse.redirect(url);
     }
+  }
 
+  if (token) {
     if (pathname.startsWith('/admin') && (token.role as unknown) !== 'ADMIN') {
       const url = new URL(`/forbidden`, request.url);
-      return NextResponse.rewrite(url);
+      return NextResponse.redirect(url);
     }
 
     if (pathname.startsWith('/app') && (token.role as unknown) !== 'CUSTOMER') {
       const url = new URL(`/forbidden`, request.url);
-      return NextResponse.rewrite(url);
+      return NextResponse.redirect(url);
     }
   }
+
   return NextResponse.next();
 }

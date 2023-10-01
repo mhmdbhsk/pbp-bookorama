@@ -21,6 +21,7 @@ import prisma from '@/lib/prisma';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
 
 export default function RootLayout({
   children,
@@ -96,9 +97,20 @@ export default function RootLayout({
 
             <Dialog open={open} onOpenChange={handleOpen}>
               <DialogTrigger asChild>
-                <Button size='sm' variant='outline' className='flex gap-2'>
+                <Button
+                  size='sm'
+                  variant='outline'
+                  className='flex gap-2 relative'
+                >
                   <IconShoppingCart size={16} />
                   Keranjang
+                  <Badge
+                    className='absolute -top-3 -right-3 px-2'
+                    variant='default'
+                    suppressHydrationWarning
+                  >
+                    {cart.length}
+                  </Badge>
                 </Button>
               </DialogTrigger>
               <DialogContent>

@@ -70,7 +70,7 @@ export default function Home() {
               <div className='flex justify-between w-full mt-4'>
                 <span className='font-semibold'>Judul</span>
                 {bookLoading ? (
-                  <Skeleton className='h-3 w-full' />
+                  <Skeleton className='h-3 w-9' />
                 ) : (
                   <span>{bookData?.data.title}</span>
                 )}
@@ -78,7 +78,7 @@ export default function Home() {
               <div className='flex justify-between w-full'>
                 <span className='font-semibold'>Pengarang</span>
                 {bookLoading ? (
-                  <Skeleton className='h-3 w-full' />
+                  <Skeleton className='h-3 w-9' />
                 ) : (
                   <span>{bookData?.data.author}</span>
                 )}
@@ -86,7 +86,7 @@ export default function Home() {
               <div className='flex justify-between w-full'>
                 <span className='font-semibold'>Harga</span>
                 {bookLoading ? (
-                  <Skeleton className='h-3 w-full' />
+                  <Skeleton className='h-3 w-9' />
                 ) : (
                   <span>
                     {new Intl.NumberFormat('id-ID', {
@@ -133,7 +133,10 @@ export default function Home() {
                     size='sm'
                     className='flex gap-1 mt-2'
                     variant='outline'
-                    onClick={() => addToCartHandler(book)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCartHandler(book);
+                    }}
                   >
                     <IconPlus size={14} stroke={3} /> Tambah
                   </Button>
@@ -176,7 +179,10 @@ export default function Home() {
                     size='sm'
                     className='flex gap-1 mt-2'
                     variant='outline'
-                    onClick={() => addToCartHandler(book)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      addToCartHandler(book);
+                    }}
                   >
                     <IconPlus size={14} stroke={3} /> Tambah
                   </Button>

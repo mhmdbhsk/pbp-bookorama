@@ -33,9 +33,9 @@ export default function OrdersPage() {
     },
   });
 
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<string | number | null>(null);
 
-  const handleOpen = (value: string | null) => {
+  const handleOpen = (value: string | number | null) => {
     if (open !== null) {
       setOpen(null);
     }
@@ -49,7 +49,7 @@ export default function OrdersPage() {
       <Dialog open={open !== null} onOpenChange={() => handleOpen(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+            <DialogTitle>Detail Order</DialogTitle>
             <DialogDescription>
               This action cannot be undone. This will permanently delete your
               account and remove your data from our servers.
@@ -67,10 +67,14 @@ export default function OrdersPage() {
                 <Card
                   key={order.id}
                   className='w-full flex-1 flex flex-col p-4'
+                  onClick={() => handleOpen(order.id)}
                 >
                   <div className='flex justify-between items-center gap-4'>
-                    <div className='flex flex-col'>
-                      <span className='font-semibold'>
+                    <div className='flex flex-col gap-1'>
+                      <span className='text-gray-400 text-sm'>
+                        Transaksi #{order.id}
+                      </span>
+                      <span className='font-semibold text-sm'>
                         {dayjs(order.date).format('L LT')}
                       </span>
                     </div>
