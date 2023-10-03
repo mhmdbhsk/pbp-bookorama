@@ -72,7 +72,7 @@ export function BooksDataTable({
           </Button>
         );
       },
-      cell: ({ row }) => <div>{row.getValue('isbn')}</div>,
+      cell: ({ row }) => <div className='w-52'>{row.getValue('isbn')}</div>,
     },
     {
       accessorKey: 'title',
@@ -87,7 +87,7 @@ export function BooksDataTable({
           </Button>
         );
       },
-      cell: ({ row }) => <div>{row.getValue('title')}</div>,
+      cell: ({ row }) => <div className='w-72'>{row.getValue('title')}</div>,
     },
     {
       accessorKey: 'categoryId',
@@ -123,7 +123,7 @@ export function BooksDataTable({
           </Button>
         );
       },
-      cell: ({ row }) => <div>{row.getValue('author')}</div>,
+      cell: ({ row }) => <div className='w-56'>{row.getValue('author')}</div>,
     },
     {
       accessorKey: 'createdAt',
