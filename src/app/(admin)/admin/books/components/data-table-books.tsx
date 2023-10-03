@@ -26,7 +26,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -40,6 +39,11 @@ import {
 } from '@/components/ui/table';
 import { Books, Categories } from '@prisma/client';
 import { cn } from '@/lib/utils';
+import dayjs from 'dayjs';
+
+var localizedFormat = require('dayjs/plugin/localizedFormat');
+dayjs.extend(localizedFormat);
+dayjs.locale('id');
 
 type BooksDataTableProps = {
   data: Books[];
@@ -120,6 +124,25 @@ export function BooksDataTable({
         );
       },
       cell: ({ row }) => <div>{row.getValue('author')}</div>,
+    },
+    {
+      accessorKey: 'createdAt',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Tanggal Ditambahkan
+            <CaretSortIcon className='ml-2 h-4 w-4' />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const date = row.getValue('createdAt');
+
+        return <div>{dayjs(date as Date).format('L LT')}</div>;
+      },
     },
     {
       accessorKey: 'price',

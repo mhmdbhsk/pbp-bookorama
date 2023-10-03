@@ -166,7 +166,7 @@ export default function BooksPage() {
       toast.success('Buku berhasil dihapus!');
       setError(null);
     } catch (error) {
-      toast.success('Buku gagal dihapus!');
+      toast.error('Buku gagal dihapus!');
       setError(null);
       console.log(error);
     }

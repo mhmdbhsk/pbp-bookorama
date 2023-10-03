@@ -6,12 +6,14 @@ import { cn } from '@/lib/utils';
 import { signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next-nprogress-bar';
+import { useCart } from '@/store/cart';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { clearCart } = useCart();
   const { data } = useSession();
   const nav = [
     {

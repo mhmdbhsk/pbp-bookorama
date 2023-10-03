@@ -29,6 +29,35 @@ export async function DELETE(
 ) {
   const booksId = params.id;
 
+  const book = await prisma.books.findUnique({
+    where: {
+      isbn: booksId,
+    },
+    include: {
+      orderItems: {
+        include: {
+          books: true,
+        },
+      },
+    },
+  });
+
+  if (book?.orderItems) {
+    for (const orderDetail of book.orderItems) {
+      await prisma.orderItems.deleteMany({
+        where: {
+          orderId: orderDetail.id,
+        },
+      });
+    }
+  }
+
+  await prisma.orderItems.deleteMany({
+    where: {
+      isbn: booksId,
+    },
+  });
+
   await prisma.books.delete({
     where: {
       isbn: booksId,

@@ -18,7 +18,6 @@ import { Books } from '@prisma/client';
 import { useCart } from '@/store/cart';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
-import prisma from '@/lib/prisma';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useState } from 'react';
